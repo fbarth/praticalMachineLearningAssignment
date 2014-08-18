@@ -71,8 +71,3 @@ plot(model)
 varImpPlot(model)
 save(model, file="data/model.Rda")
 
-# The results with the test dataset are:
-
-testing <- read.csv("data/pml-testing.csv", header=TRUE)
-testPred <- predict(model, newdata=testing)
-testPred
