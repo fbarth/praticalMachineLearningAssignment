@@ -1,18 +1,18 @@
-HAR problem with Random Forest Algorithm
+Activity Recognition using Random Forest Algorithm
 ========================================================
+
+The goal of this project is develop a predict model to identify which activity a person was performed. The data used were from accelerometers on the belt, forearm, arm and dumbell. More specifically, the goal of this project is test if it is possible develop a acurate predict model for this problem using only Random Forest Algorithm [[1]](ftp://131.252.97.79/Transfer/Treg/WFRE_Articles/Liaw_02_Classification%20and%20regression%20by%20randomForest.pdf).
+
+The dataset used in this work was [[2]](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv) and the paper that describe the dataset can be found at [[3]](http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf).
 
 ```{r}
 set.seed(1234)
 options(stringsAsFactors=TRUE)
 training <- read.csv("../data/pml-training.csv", header=TRUE)
-names(training)
 training$X <- NULL
-sapply(training, class)
-summary(training)
 ````
 
-Remove user_name, raw_timestamp_part_1, raw_timestamp_part_2, cvtd_timestamp,
-new_window and num_window attributes.
+This dataset has `r dim(training)[1]` examples and `r dim(training)[2]` attributes. However, some attributes are irrelevant as predictors, for example: user\_name, raw\_timestamp\_part\_1, raw\_timestamp\_part_2, cvtd\_timestamp, new\_window and num\_window. Therefore, I will remove these attributes from the dataset.
 
 ```{r}
 f_training <- training
@@ -24,15 +24,14 @@ f_training$new_window <- NULL
 f_training$num_window <- NULL
 ````
 
-Removing columns with NA's values
+Besides, there some attributes with NA values. Random Forest Algorithm can not handle attributes with NA values. Therefore, I removed these attributes from the dataset using the command below:
 
 ```{r}
 f_training <- f_training[,colSums(is.na(f_training))==0]
-summary(f_training)
 ````
 
 For some reason, there are some attributes that were imported without values
-and as character. In this case, I removed manually each attribute using the commands
+and as character type. In this case, I removed manually each attribute using the commands
 below:
 
 ```{r}
@@ -70,3 +69,5 @@ f_training$max_yaw_forearm <- NULL
 f_training$min_yaw_forearm <- NULL
 f_training$amplitude_yaw_forearm <- NULL
 ````
+
+After pre-processing step, the dataset has `r dim(f_training)[1]` examples and `r dim(f_training)[2]` attributes. 
